@@ -1,0 +1,11 @@
+body{
+  background-color: teal;
+}
+
+.balloon{
+  height: 120px;
+  width: 100px;
+  background-color: lavender;
+  border-radius: 100%;
+
+}

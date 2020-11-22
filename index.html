@@ -3,12 +3,27 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Balloon Pop</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  
-<div id="balloon" class="balloon"> </div>
-<button>Inflate</button>
+
+  <div>
+    <button onclick="startGame()">START GAME</button>
+  </div>
+
+  <button onclick="inflate()">
+    Inflate
+    <span id="click-count"></span>
+  </button>
+
+  <div>
+    <span>Balloons Popped</span>
+    <span id="pop-count">0</span>
+  </div>
+
+  <div id="balloon" class="balloon"> </div>
 
 
+<script src="main.js"></script>
 </body>
 </html>

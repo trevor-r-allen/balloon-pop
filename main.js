@@ -1,5 +1,8 @@
+//BUTTONS
 let startButton = document.getElementById("start-button")
 let inflateButton = document.getElementById("inflate-button")
+
+// #region GAME LOGIC AND DATA
 
 //DATA
 let clickCount = 0
@@ -18,7 +21,6 @@ function startGame(){
   inflateButton.removeAttribute("disabled")
   startClock()
   setTimeout(stopGame, gameLength)
-
 }
 
 function startClock(){
@@ -26,14 +28,15 @@ function startClock(){
   drawClock()
   clockId = setInterval(drawClock, 1000)
 }
+
 function stopClock(){
   clearInterval(clockId)
 }
+
 function drawClock(){
   let countdownElement = document.getElementById("countdown")
   countdownElement.innerText = (timeRemaining / 1000).toString()
   timeRemaining -= 1000
-
 }
 
 function inflate(){
@@ -46,11 +49,9 @@ function inflate(){
     currentPopCount++
     height = 0
     width = 0
-
   }
 
   draw()
-
 }
 
 function draw(){
@@ -63,7 +64,6 @@ function draw(){
   balloonElement.style.width = width + "px"
 
   clickCountElement.innerText = clickCount.toString()
-
   popCountElement.innerText = currentPopCount.toString()
   highPopCountElement.innerText = highestPopCount.toString()
 }
@@ -86,5 +86,26 @@ function stopGame(){
 
   stopClock()
   draw()
+}
 
+// #endregion
+
+let players = []
+
+function setPlayer(event){
+  event.preventDefault()
+  let form = event.target
+
+  let playerName = form.playerName.value
+
+  let currentPlayer = players.find(player => player.name == playerName)
+
+  if(!currentPlayer){
+    currentPlayer = {name: playerName, topScore: 0}
+
+    console.log(currentPlayer)
+
+  }
+
+  form.reset()
 }

@@ -118,16 +118,16 @@ button:hover{
   }
 
   .balloon.teal{
-    filter: hue-rotate(-175);
+    filter: hue-rotate(-175deg);
   }
   .balloon.pink{
-    filter: hue-rotate(-40);
+    filter: hue-rotate(-40deg);
   }
   .balloon.purple{
-    filter: hue-rotate(-75);
+    filter: hue-rotate(-75deg);
   }
   .balloon.green{
-    filter: hue-rotate(140);
+    filter: hue-rotate(140deg);
   }
 
 @keyframes balloon-float{
@@ -142,6 +142,12 @@ button:hover{
 .container{
   width: 50%;
   margin: auto;
+}
+
+@media screen and (max-width: 700px){
+  .container{
+    width: 90%;
+  }
 }
 
 .card{
@@ -199,6 +205,10 @@ button:hover{
 }
 .mb-3{
   margin-bottom: 1.5em;
+}
+
+.text-center{
+  text-align: center;
 }
 
 .hidden{

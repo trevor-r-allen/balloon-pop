@@ -8,6 +8,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
     integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+  <link rel="shortcut icon" href="balloon-pop-icon.png">
   <link rel="stylesheet" href="style.css">
 </head>
 
@@ -20,8 +21,8 @@
   </header>
 
   <main class="container card">
-    <!-- TODO remove hidden class -->
-    <form class=" hidden d-flex space-between" id="player-form" onsubmit="setPlayer(event)">
+
+    <form class="d-flex space-between" id="player-form" onsubmit="setPlayer(event)">
       <div class="mb-1">
         <label for="name">
           <i class="fa fa-user-circle-o" aria-hidden="true"></i>
@@ -32,9 +33,7 @@
       <button type="submit">Ok</button>
     </form>
 
-    <!-- TODO replace hidden class -->
-
-    <section id="game" class="game ">
+    <section id="game" class="game hidden">
 
       <div class="card bg-dark text-light">
         <div class="d-flex space-between">
@@ -49,14 +48,12 @@
         </div>
       </div>
 
-
-      <!-- TODO remove hidden class -->
-      <div id="main-controls" class="hidden d-flex space-around mt-2">
+      <div id="main-controls" class="d-flex space-around mt-2">
         <button class="bt-dark" onclick="changePlayer()">Change Player</button>
         <button id="start-button" onclick="startGame()">START GAME</button>
       </div>
-      <!-- TODO replace hidden class -->
-      <div id="game-controls" class="">
+
+      <div id="game-controls" class="hidden">
 
         <div>
           <span>Balloons Popped:</span>
@@ -76,12 +73,18 @@
             </div>
           </div>
           <div id="balloon" class="balloon"> </div>
+          <audio id="pop-sound" src="burst.mp3"></audio>
         </div>
 
 
       </div>
     </section>
   </main>
+
+  <div id="scoreboard" class="container card mt-2">
+    <h3 class="text-center">Scoreboard</h3>
+    <div id="players"></div>
+  </div>
 
   <script src="main.js"></script>
 </body>

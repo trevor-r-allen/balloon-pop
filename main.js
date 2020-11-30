@@ -1,6 +1,3 @@
-//BUTTONS
-
-
 // #region GAME LOGIC AND DATA
 
 //DATA
@@ -11,52 +8,69 @@ let inflationRate = 20
 let maxSize = 300
 let currentPopCount = 0
 let highestPopCount = 0
-let gameLength = 5000
+let gameLength = 10000
 let clockId = 0
 let timeRemaining = 0
 let currentPlayer = {}
+let currentColor = "red"
+let possibleColors = ["red", "teal", "pink", "purple", "green"]
 
-function startGame(){
+function startGame() {
   document.getElementById("game-controls").classList.remove("hidden")
   document.getElementById("main-controls").classList.add("hidden")
+  document.getElementById("scoreboard").classList.add("hidden")
   startClock()
   setTimeout(stopGame, gameLength)
 }
 
-function startClock(){
+function startClock() {
   timeRemaining = gameLength
   drawClock()
   clockId = setInterval(drawClock, 1000)
 }
 
-function stopClock(){
+function stopClock() {
   clearInterval(clockId)
 }
 
-function drawClock(){
+function drawClock() {
   let countdownElement = document.getElementById("countdown")
   countdownElement.innerText = (timeRemaining / 1000).toString()
   timeRemaining -= 1000
 }
 
-function inflate(){
+function inflate() {
   clickCount++
   height += inflationRate
   width += inflationRate
+  checkBalloonPop()
+  draw()
+}
 
-  if(height >= maxSize){
+function checkBalloonPop() {
+  if (height >= maxSize) {
     console.log("balloon has popped")
     let balloonElement = document.getElementById("balloon")
-    balloonElement.classList.add("teal")
+    balloonElement.classList.remove(currentColor)
+    getRandomColor()
+    balloonElement.classList.add(currentColor)
+
+    // @ts-ignore
+    document.getElementById("pop-sound").play()
+
     currentPopCount++
     height = 0
     width = 0
   }
-
-  draw()
 }
 
-function draw(){
+function getRandomColor() {
+  let i = Math.floor(Math.random() * possibleColors.length);
+  console.log(i)
+  currentColor = possibleColors[i]
+}
+
+function draw() {
   let balloonElement = document.getElementById("balloon")
   let clickCountElement = document.getElementById("click-count")
   let popCountElement = document.getElementById("pop-count")
@@ -73,17 +87,18 @@ function draw(){
   playerNameElement.innerText = currentPlayer.name
 }
 
-function stopGame(){
+function stopGame() {
   console.log("game has ended")
 
   document.getElementById("main-controls").classList.remove("hidden")
   document.getElementById("game-controls").classList.add("hidden")
+  document.getElementById("scoreboard").classList.remove("hidden")
 
   clickCount = 0
   height = 120
   width = 100
 
-  if(currentPopCount > currentPlayer.topScore){
+  if (currentPopCount > currentPlayer.topScore) {
     currentPlayer.topScore = currentPopCount
     savePlayers()
   }
@@ -92,6 +107,7 @@ function stopGame(){
 
   stopClock()
   draw()
+  drawScoreboard()
 }
 
 // #endregion
@@ -99,7 +115,7 @@ function stopGame(){
 let players = []
 loadPlayers()
 
-function setPlayer(event){
+function setPlayer(event) {
   event.preventDefault()
   let form = event.target
 
@@ -107,8 +123,8 @@ function setPlayer(event){
 
   currentPlayer = players.find(player => player.name == playerName)
 
-  if(!currentPlayer){
-    currentPlayer = {name: playerName, topScore: 0}
+  if (!currentPlayer) {
+    currentPlayer = { name: playerName, topScore: 0 }
     players.push(currentPlayer)
     savePlayers()
 
@@ -118,19 +134,42 @@ function setPlayer(event){
   document.getElementById("game").classList.remove("hidden")
   form.classList.add("hidden")
   draw()
+  drawScoreboard()
 }
 
-function changePlayer(){
+function changePlayer() {
   document.getElementById("player-form").classList.remove("hidden")
   document.getElementById("game").
-classList.add("hidden")
+    classList.add("hidden")
 }
 
-function savePlayers(){
+function savePlayers() {
   window.localStorage.setItem("players", JSON.stringify(players))
-}function loadPlayers(){
+} function loadPlayers() {
   let playersData = JSON.parse(window.localStorage.getItem("players"))
-  if(playersData){
+  if (playersData) {
     players = playersData
   }
 }
+
+function drawScoreboard() {
+  let template = ""
+
+  players.sort((p1, p2) => p2.topScore - p1.topScore)
+
+  players.forEach(player => {
+    template += `
+    <div class="d-flex space-between">
+        <span>
+          <i class="fa fa-user"></i>
+          ${player.name}
+        </span>
+        <span>score: ${player.topScore}</span>
+    </div>
+    `
+  })
+
+  document.getElementById("players").innerHTML = template
+}
+
+drawScoreboard()
